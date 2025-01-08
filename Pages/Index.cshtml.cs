@@ -16,29 +16,28 @@ namespace KSPBD_Rulit.Pages
             _context = context;
         }
 
-        // Свойство для хранения объектов
         public List<Объект> Объекты { get; set; } = new List<Объект>();
 
+        // Загрузка данных из БД
         public async Task OnGetAsync()
         {
-            // Загрузка всех объектов из базы данных
             Объекты = await _context.Объект.ToListAsync();
         }
 
-        public async Task<IActionResult> OnGetObjectInfoAsync(int id)
+        // Метод для удаления объекта
+        public IActionResult OnPostDeleteObject(int id)
         {
-            var объект = await _context.Объект.FirstOrDefaultAsync(o => o.ИдОбьекта == id);
-
-            if (объект == null)
+            var объект = _context.Объект.Find(id);
+            if (объект != null)
             {
-                Console.WriteLine($"Объект с id {id} не найден");
-                return new JsonResult(new { Error = "Объект не найден" });
+                _context.Объект.Remove(объект);
+                _context.SaveChanges();
+                return RedirectToPage(); // Перезагрузка страницы после удаления
             }
 
-            Console.WriteLine($"Объект найден: Район = {объект.Район}, Улица = {объект.Улица}, Статус = {объект.Статус}");
-            return new JsonResult(объект);
+            // Если объект не найден, можно вернуть ошибку или просто обновить страницу
+            return RedirectToPage();
         }
 
     }
 }
-

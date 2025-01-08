@@ -80,7 +80,6 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="objectSelect" class="form-label"><strong>Объект</strong></label>
                     <select id="objectSelect" class="form-select">
                         <option value="" selected>Выберите объект</option>
                         @foreach (var объект in Model.Объекты)
@@ -88,6 +87,7 @@
                             <option value="@объект.ИдОбьекта">@объект.Улица (@объект.Район)</option>
                         }
                     </select>
+
                 </div>
                 <div class="mb-3">
                     <label for="scheduleSelect" class="form-label"><strong>График работ</strong></label>
@@ -98,7 +98,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Удалить</button>
+                <!-- Кнопка удаления будет передавать ID выбранного объекта -->
+                <button type="button" class="btn btn-danger" id="deleteButton" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Удалить</button>
             </div>
         </div>
     </div>
@@ -117,11 +118,21 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="finalDeleteButton">Удалить</button>
+                <!-- Кнопка для подтверждения удаления -->
+                <form id="deleteForm" method="post" asp-page-handler="DeleteObject">
+                    <input type="hidden" id="deleteIdInput" name="id" value="" />
+                    <button type="button" class="btn btn-danger" id="finalDeleteButton">Удалить</button>
+                </form>
+
+
+
             </div>
         </div>
     </div>
 </div>
+
+
+
 
 <!-- Уведомление (Toast) -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
@@ -139,36 +150,62 @@
 @section Scripts {
 
     <script>
-        document.getElementById('objectSelect').addEventListener('change', async function () {
-            const selectedId = this.value;
+        document.addEventListener('DOMContentLoaded', function () {
+            // Получаем ссылки на элементы
+            const objectSelect = document.querySelector('#deleteModal #objectSelect'); // Выбор объекта
+            const deleteButton = document.getElementById('deleteButton');
+            const finalDeleteButton = document.getElementById('finalDeleteButton');
+            const deleteForm = document.getElementById('deleteForm');
+            const deleteIdInput = document.getElementById('deleteIdInput');
 
-            if (!selectedId) {
-                document.getElementById('objectInfo').value = "Выберите объект для просмотра информации";
+            if (!objectSelect) {
+                console.error('Ошибка: Элемент #objectSelect не найден');
                 return;
             }
 
-            try {
-                // Отправляем запрос на сервер
-                const response = await fetch(`/Index?handler=ObjectInfo&id=${selectedId}`);
-
-                if (!response.ok) {
-                    throw new Error("Ошибка при загрузке данных");
-                }
-
-                const data = await response.json();
-
-                if (data.Error) {
-                    document.getElementById('objectInfo').value = data.Error;
+            // Событие выбора объекта
+            objectSelect.addEventListener('change', function () {
+                const selectedId = this.value.trim(); // Получаем ID выбранного объекта
+                if (selectedId) {
+                    console.log('Selected object ID:', selectedId);
                 } else {
-                    // Обновляем текстовое поле с информацией
-                    document.getElementById('objectInfo').value = `Район: ${data.Район}\nУлица: ${data.Улица}\nСтатус: ${data.Статус}`;
+                    console.warn('Выбран пустой объект');
                 }
-            } catch (error) {
-                console.error(error);
-                document.getElementById('objectInfo').value = "Ошибка загрузки данных";
-            }
+            });
+
+            // При нажатии на кнопку "Удалить"
+            deleteButton.addEventListener('click', function () {
+                const selectedId = objectSelect.value.trim(); // Получаем текущий выбранный ID
+                if (!selectedId) {
+                    alert('Пожалуйста, выберите объект для удаления');
+                    return;
+                }
+
+                console.log('Selected object ID before confirm modal:', selectedId);
+                // Устанавливаем ID в кнопку подтверждения
+                finalDeleteButton.setAttribute('data-id', selectedId);
+            });
+
+            // При нажатии на "Удалить" в подтверждающем окне
+            finalDeleteButton.addEventListener('click', function () {
+                const idToDelete = this.getAttribute('data-id');
+                if (!idToDelete) {
+                    alert('Ошибка: не выбран объект для удаления');
+                    return;
+                }
+
+                console.log('Final object ID to delete:', idToDelete);
+                // Устанавливаем ID в скрытое поле формы
+                deleteIdInput.value = idToDelete;
+
+                // Отправляем форму
+                deleteForm.submit();
+            });
         });
     </script>
+
+
+
 
     <script>
         
