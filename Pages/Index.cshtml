@@ -1,0 +1,150 @@
+﻿@page
+@model IndexModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Главная";
+}
+
+<!-- Основное тело с текстом и картинкой по центру -->
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="d-flex align-items-center gap-3">
+        <div class="fw-bold text-uppercase text-dark display-1 display-md-2">КАСП</div>
+        <div class="image-place d-none d-sm-block">
+            <img src="images/pic_build.svg" alt="Building pics" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <!-- Увеличение ширины модального окна -->
+        <div class="modal-content p-4">
+            <!-- Внутренний отступ для красивой рамки -->
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container mt-3 px-4">
+                <!-- Добавлен отступ по бокам -->
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="objectSelect" class="form-label"><strong>Объект</strong></label>
+                        <select id="objectSelect" class="form-select">
+
+                            <option selected>Многоквартирный дом ул Есенина 7</option>
+                            <option>Многоквартирный дом ул Станкозаводская 7</option>
+                            <option>Многоквартирный дом ул Есенина 1/1</option>
+                            <option>Многоквартирный дом ул Октябрьская 31 к2</option>
+                            <option>Многоквартирный дом ул Октябрьская 37 к2</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="objectInfo" class="form-label"><strong>Информация об объекте</strong></label>
+                        <textarea id="objectInfo" class="form-control h-100 overflow-auto" rows="3" readonly></textarea> <!-- Добавлен readonly -->
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="versionSelect" class="form-label"><strong>Версия графика</strong></label>
+                        <select id="versionSelect" class="form-select">
+                            <option>График производства работ №n за xx.xx.xxxx</option>
+                            <option>График производства работ №n за xx.xx.xxxx</option>
+                            <option>График производства работ №n за xx.xx.xxxx</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-secondary">Отмена</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='/graph';">Открыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для выбора объекта и графика -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editDeleteModalLabel">Выбор объекта и графика</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="objectSelect" class="form-label"><strong>Объект</strong></label>
+                    <select id="objectSelect" class="form-select">
+                        <option selected>Многоквартирный дом ул Есенина 7</option>
+                        <option>Многоквартирный дом ул Станкозаводская 7</option>
+                        <option>Многоквартирный дом ул Есенина 1/1</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="scheduleSelect" class="form-label"><strong>График работ</strong></label>
+                    <select id="scheduleSelect" class="form-select">
+                        <option>График производства работ №1 за 01.01.2025</option>
+                        <option>График производства работ №2 за 15.01.2025</option>
+                        <option>График производства работ №3 за 01.02.2025</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для подтверждения удаления -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите удалить выбранный график работ? Это действие необратимо.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="finalDeleteButton">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Уведомление (Toast) -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+    <div id="deleteToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                График работ удалён.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        
+        // Функция для смены языка
+        function changeLanguage(lang) {
+            document.getElementById('languageButton').innerText = lang;
+        }
+    
+        // Логика показа уведомления
+        document.getElementById('finalDeleteButton').addEventListener('click', function () {
+            const deleteToast = new bootstrap.Toast(document.getElementById('deleteToast'));
+            deleteToast.show();
+        });
+    </script>
+}

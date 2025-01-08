@@ -1,0 +1,43 @@
+﻿@page
+@model KSPBD_Rulit.Pages.authPanleModel
+@{
+}
+<body class="bg-white">
+    
+    <!-- Основное тело с текстом и картинкой по центру -->
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="d-flex align-items-center gap-3">
+            <div class="main-auth-content">
+                <div class="h1 auth-header">Авторизация</div>
+                <div class="auth-fields">
+                    <div class="login-field">
+                        <div class="mb-3">
+                            <label for="loginInput" class="form-label">Логин</label>
+                            <input type="text" class="form-control" id="loginInput" placeholder="Введите логин">
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordInput" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="passwordInput" placeholder="Введите пароль">
+                        </div>
+                    </div>
+                </div>
+                <div class="auth-sigin-button">
+                    <button class="btn btn-primary me-2 signin-button">Войти</button>
+                </div>
+            </div>
+            <div class="image-place d-none d-sm-block">
+                <img src="svg_icons/pic_build.svg" alt="Building pics" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Функция для смены языка
+        function changeLanguage(lang) {
+          document.getElementById('languageButton').innerText = lang;
+        }
+    </script>
+
+  
+</body>
+
