@@ -83,6 +83,7 @@ namespace KSPBD_Rulit
                     new ВидРабот
                     {
                         WorkType_name = "Монтаж асбестовых",
+                        subchapter_id = 3,
                         WorkType_number = 0,
                         WorkComment = "В работе"
                     }

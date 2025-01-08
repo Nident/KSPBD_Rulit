@@ -6,9 +6,12 @@ namespace KSPBD_Rulit.Models
     {
         [Key]
         public int WorkType_id { get; set; }
+        public int subchapter_id { get; set; }
         public string WorkType_name { get; set; }
         public int WorkType_number { get; set; }
         public string? WorkComment { get; set; }
+
+        //public Подраздел Подраздел { get; set; }
 
     }
 }

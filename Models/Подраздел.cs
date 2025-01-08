@@ -6,9 +6,11 @@ namespace KSPBD_Rulit.Models
     {
         [Key]
         public int subchapter_id { get; set; }
-        public int chapter_id { get; set; }
         public string subchapter_name { get; set; }
         public int subchapter_number { get; set; }
+
+        public int chapter_id { get; set; }
+        //public Раздел Раздел { get; set; }
 
     }
 }
