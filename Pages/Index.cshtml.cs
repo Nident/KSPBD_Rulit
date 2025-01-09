@@ -4,9 +4,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace KSPBD_Rulit.Pages
+
 {
+    [Authorize]  // Ограничиваем доступ только авторизованным пользователям
     public class IndexModel : PageModel
     {
         private readonly Context _context;
@@ -35,7 +39,7 @@ namespace KSPBD_Rulit.Pages
                 return RedirectToPage(); // Перезагрузка страницы после удаления
             }
 
-            // Если объект не найден, можно вернуть ошибку или просто обновить страницу
+            // Если объект не найден
             return RedirectToPage();
         }
 

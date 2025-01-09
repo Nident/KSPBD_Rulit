@@ -16,6 +16,8 @@ namespace KSPBD_Rulit
         public DbSet<Раздел> Раздел { get; set; }
         public DbSet<Секция> Секция { get; set; }
         public DbSet<Этаж> Этаж { get; set; }
+        public DbSet<Пользователь> Пользователи { get; set; }
+
 
         public DbSet<СправочникАдресов> СправочникАдресов { get; set; }
 
