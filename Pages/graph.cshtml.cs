@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using KSPBD_Rulit.Models;
 using static System.Collections.Specialized.BitVector32;
+using System.Globalization;
 
 namespace KSPBD_Rulit.Pages
 {
@@ -123,7 +124,87 @@ namespace KSPBD_Rulit.Pages
 
             return Page(); // Возвращаем полную страницу
         }
+        [BindProperty]
+        public string WorkPlanData { get; set; }
 
+        public async Task<IActionResult> OnPostAsync([FromBody] List<workPlanTable> updatedWorkPlans)
+        {
+            if (updatedWorkPlans == null || !updatedWorkPlans.Any())
+            {
+                return BadRequest("Нет данных для сохранения.");
+            }
+
+            foreach (var updatedPlan in updatedWorkPlans)
+            {
+                var plan = await _context.ПланРабот.FindAsync(updatedPlan.plan_Id);
+                if (plan != null)
+                {
+                    plan.DateOfWork = updatedPlan.plan_period;
+                    plan.WorkValue = (int)updatedPlan.workValue;
+
+                    var section = await _context.Секция.FindAsync(updatedPlan.section_Id);
+                    if (section != null)
+                    {
+                        section.НаименованиеСекции = updatedPlan.section_name;
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return new JsonResult(new { success = true });
+        }
+
+        public async Task<IActionResult> OnPostSaveAsync()
+        {
+            try
+            {
+                // Получаем данные из формы
+                var formData = Request.Form;
+
+                foreach (var key in formData.Keys)
+                {
+                    // Разбираем ключи и значения для обновления
+                    if (key.StartsWith("workPlan_"))
+                    {
+                        var idParts = key.Split('_'); // Формат ключа: workPlan_{planId}_{fieldName}
+                        if (idParts.Length == 3)
+                        {
+                            var planId = int.Parse(idParts[1]);
+                            var fieldName = idParts[2];
+                            var value = formData[key];
+
+                            // Обновляем соответствующую запись
+                            var workPlan = await _context.ПланРабот.FirstOrDefaultAsync(wp => wp.WorkPlan_Id == planId);
+                            if (workPlan != null)
+                            {
+                                switch (fieldName)
+                                {
+                                    case "DateOfWork":
+                                        workPlan.DateOfWork = value;
+                                        break;
+                                    case "WorkValue":
+                                        workPlan.WorkValue = int.Parse(value);
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Сохраняем изменения
+                await _context.SaveChangesAsync();
+
+                // Обновляем страницу
+                return RedirectToPage();
+            }
+            catch (Exception ex)
+            {
+                // Логируем ошибку
+                Console.WriteLine($"Ошибка сохранения: {ex.Message}");
+                return Page();
+            }
+        }
     }
 }
 
