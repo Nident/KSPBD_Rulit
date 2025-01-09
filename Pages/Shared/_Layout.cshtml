@@ -73,11 +73,21 @@
                         <ul class="dropdown-menu">
                             <li><button class="btn dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editModal">Редактировать</button></li>
                             <li><button class="btn dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить</button></li>
-                            <li><button id="saveButton" class="btn dropdown-item" type="button" disabled>Сохранить</button></li>
-                            <li><button class="btn dropdown-item" type="button" disabled>Сохранить и закрыть</button></li>
+                            <li>
+                                <form method="post" action="/graph?handler=Save">
+                                    <button id="saveButton" class="btn dropdown-item" type="submit" disabled>
+                                        Сохранить
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <button class="btn dropdown-item" type="button" disabled>
+                                    Сохранить и закрыть
+                                </button>
+                            </li>
                         </ul>
                     </li>
-
+                    
                     <!-- Настройка -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Настройка</a>

@@ -254,8 +254,6 @@
 
                 @if (Model.SelectedWorkType != null)
                 {
-                    <!-- Таблица для выбранного Вид Работ -->
-                    <h4>Вид работ: @Model.SelectedWorkType.WorkType_name</h4>
                     <table id="workPlanTable" class="table table-bordered table-striped text-center">
                         <thead>
                             <tr>
@@ -267,45 +265,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @functions {
-                            public int GetWeekOfMonth(DateTime date)
-                            {
-                                // Определяем, какой день недели является первым в месяце
-                                DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-
-                                // Получаем номер недели в месяце
-                                int weekOfMonth = (date.Day - 1) / 7 + 1;
-
-                                return weekOfMonth;
-                            }
-                        }
-                        @foreach (var workPlan in Model.WorkPlanTable)
+                            @foreach (var workPlan in Model.WorkPlanTable)
                             {
                                 <tr>
                                     <td>@workPlan.plan_Id</td>
-                                    <td>
-                                        @{
-                                            // Преобразуем строку даты (в формате dd-MM-yyyy) в объект DateTime
-                                            DateTime date = DateTime.ParseExact(workPlan.plan_period, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-
-                                            // Получаем номер недели в месяце
-                                            int weekOfMonth = GetWeekOfMonth(date);
-
-                                            // Получаем название месяца
-                                            string monthName = date.ToString("MMMM", new CultureInfo("ru-RU"));
-
-                                            // Формируем строку в нужном формате
-                                            string formattedDate = $"{weekOfMonth} неделя {monthName}";
-
-                                            // Выводим результат
-                                            @formattedDate
-                                        }
-                                    </td>
+                                    <td>@workPlan.plan_period</td>
                                     <td>@workPlan.section_name</td>
                                     <td>Секция @workPlan.section_Id</td>
-                                    <td class="editable" data-id="@workPlan.plan_Id">@workPlan.workValue</td>
+                                    <td>@workPlan.workValue</td>
                                 </tr>
-                            }
                             }
                         </tbody>
                     </table>
