@@ -1,9 +1,13 @@
-﻿@page
-@model IndexModel
+﻿
+@page
+@model KSPBD_Rulit.Pages.IndexModel
+
+
 @{
     Layout = "~/Pages/Shared/_Layout.cshtml";
     ViewData["Title"] = "Главная";
 }
+
 
 <!-- Основное тело с текстом и картинкой по центру -->
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
@@ -15,42 +19,41 @@
     </div>
 </div>
 
-
+<!-- Модальное окно при выборе Редактирования графика -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <!-- Увеличение ширины модального окна -->
         <div class="modal-content p-4">
             <!-- Внутренний отступ для красивой рамки -->
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Выбор графика для редактирования</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="container mt-3 px-4">
                 <!-- Добавлен отступ по бокам -->
                 <div class="row mb-3">
                     <div class="col-6">
+                        <!-- Выпадающий список объектов -->
                         <label for="objectSelect" class="form-label"><strong>Объект</strong></label>
                         <select id="objectSelect" class="form-select">
-
-                            <option selected>Многоквартирный дом ул Есенина 7</option>
-                            <option>Многоквартирный дом ул Станкозаводская 7</option>
-                            <option>Многоквартирный дом ул Есенина 1/1</option>
-                            <option>Многоквартирный дом ул Октябрьская 31 к2</option>
-                            <option>Многоквартирный дом ул Октябрьская 37 к2</option>
+                            <option value="" selected>Выберите объект</option>
+                            @foreach (var объект in Model.Объекты)
+                            {
+                                <option value="@объект.ИдОбьекта">@объект.Улица</option>
+                            }
                         </select>
+
                     </div>
                     <div class="col-6">
                         <label for="objectInfo" class="form-label"><strong>Информация об объекте</strong></label>
-                        <textarea id="objectInfo" class="form-control h-100 overflow-auto" rows="3" readonly></textarea> <!-- Добавлен readonly -->
+                        <textarea id="objectInfo" class="form-control h-100 overflow-auto" rows="3" readonly>Здесь будет показываться дополнительная информация об объекте</textarea> <!-- Добавлен readonly -->
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-6">
                         <label for="versionSelect" class="form-label"><strong>Версия графика</strong></label>
                         <select id="versionSelect" class="form-select">
-                            <option>График производства работ №n за xx.xx.xxxx</option>
-                            <option>График производства работ №n за xx.xx.xxxx</option>
-                            <option>График производства работ №n за xx.xx.xxxx</option>
+                            <option>График производства работ №n за 01.04.2024</option>
                         </select>
                     </div>
                 </div>
@@ -67,35 +70,36 @@
     </div>
 </div>
 
-<!-- Модальное окно для выбора объекта и графика -->
+<!-- Модальное окно при выборе Удаления графика -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editDeleteModalLabel">Выбор объекта и графика</h5>
+                <h5 class="modal-title" id="editDeleteModalLabel">Выбор графика для удаления</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="objectSelect" class="form-label"><strong>Объект</strong></label>
                     <select id="objectSelect" class="form-select">
-                        <option selected>Многоквартирный дом ул Есенина 7</option>
-                        <option>Многоквартирный дом ул Станкозаводская 7</option>
-                        <option>Многоквартирный дом ул Есенина 1/1</option>
+                        <option value="" selected>Выберите объект</option>
+                        @foreach (var объект in Model.Объекты)
+                        {
+                            <option value="@объект.ИдОбьекта">@объект.Улица (@объект.Район)</option>
+                        }
                     </select>
+
                 </div>
                 <div class="mb-3">
                     <label for="scheduleSelect" class="form-label"><strong>График работ</strong></label>
                     <select id="scheduleSelect" class="form-select">
-                        <option>График производства работ №1 за 01.01.2025</option>
-                        <option>График производства работ №2 за 15.01.2025</option>
-                        <option>График производства работ №3 за 01.02.2025</option>
+                        <option>График производства работ №n за 01.04.2024</option>
                     </select>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Удалить</button>
+                <!-- Кнопка удаления будет передавать ID выбранного объекта -->
+                <button type="button" class="btn btn-danger" id="deleteButton" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Удалить</button>
             </div>
         </div>
     </div>
@@ -114,11 +118,21 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="finalDeleteButton">Удалить</button>
+                <!-- Кнопка для подтверждения удаления -->
+                <form id="deleteForm" method="post" asp-page-handler="DeleteObject">
+                    <input type="hidden" id="deleteIdInput" name="id" value="" />
+                    <button type="button" class="btn btn-danger" id="finalDeleteButton">Удалить</button>
+                </form>
+
+
+
             </div>
         </div>
     </div>
 </div>
+
+
+
 
 <!-- Уведомление (Toast) -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
@@ -134,6 +148,65 @@
 
 
 @section Scripts {
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Получаем ссылки на элементы
+            const objectSelect = document.querySelector('#deleteModal #objectSelect'); // Выбор объекта
+            const deleteButton = document.getElementById('deleteButton');
+            const finalDeleteButton = document.getElementById('finalDeleteButton');
+            const deleteForm = document.getElementById('deleteForm');
+            const deleteIdInput = document.getElementById('deleteIdInput');
+
+            if (!objectSelect) {
+                console.error('Ошибка: Элемент #objectSelect не найден');
+                return;
+            }
+
+            // Событие выбора объекта
+            objectSelect.addEventListener('change', function () {
+                const selectedId = this.value.trim(); // Получаем ID выбранного объекта
+                if (selectedId) {
+                    console.log('Selected object ID:', selectedId);
+                } else {
+                    console.warn('Выбран пустой объект');
+                }
+            });
+
+            // При нажатии на кнопку "Удалить"
+            deleteButton.addEventListener('click', function () {
+                const selectedId = objectSelect.value.trim(); // Получаем текущий выбранный ID
+                if (!selectedId) {
+                    alert('Пожалуйста, выберите объект для удаления');
+                    return;
+                }
+
+                console.log('Selected object ID before confirm modal:', selectedId);
+                // Устанавливаем ID в кнопку подтверждения
+                finalDeleteButton.setAttribute('data-id', selectedId);
+            });
+
+            // При нажатии на "Удалить" в подтверждающем окне
+            finalDeleteButton.addEventListener('click', function () {
+                const idToDelete = this.getAttribute('data-id');
+                if (!idToDelete) {
+                    alert('Ошибка: не выбран объект для удаления');
+                    return;
+                }
+
+                console.log('Final object ID to delete:', idToDelete);
+                // Устанавливаем ID в скрытое поле формы
+                deleteIdInput.value = idToDelete;
+
+                // Отправляем форму
+                deleteForm.submit();
+            });
+        });
+    </script>
+
+
+
+
     <script>
         
         // Функция для смены языка
