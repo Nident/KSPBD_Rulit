@@ -43,5 +43,19 @@ namespace KSPBD_Rulit.Pages
             return RedirectToPage();
         }
 
+
+        public async Task<IActionResult> OnGetObjectInfoAsync(int id)
+        {
+            var объект = await _context.Объект.FirstOrDefaultAsync(o => o.ИдОбьекта == id);
+
+            if (объект == null)
+            {
+                return new JsonResult(new { Error = "Объект не найден" });
+            }
+
+            return new JsonResult(объект);
+        }
+
+
     }
 }

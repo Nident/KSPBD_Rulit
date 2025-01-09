@@ -144,15 +144,18 @@
 
 
 @section Scripts {
-
+    <!-- Скрипт для удаления объекта из БД -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+                  document.addEventListener('DOMContentLoaded', function () {
             // Получаем ссылки на элементы
             const objectSelect = document.querySelector('#deleteModal #objectSelect'); // Выбор объекта
             const deleteButton = document.getElementById('deleteButton');
             const finalDeleteButton = document.getElementById('finalDeleteButton');
             const deleteForm = document.getElementById('deleteForm');
             const deleteIdInput = document.getElementById('deleteIdInput');
+            const confirmDeleteModalElement = document.getElementById('confirmDeleteModal');
+            const confirmDeleteModal = new bootstrap.Modal(confirmDeleteModalElement);
+            const deleteToast = new bootstrap.Toast(document.getElementById('deleteToast'));
 
             if (!objectSelect) {
                 console.error('Ошибка: Элемент #objectSelect не найден');
@@ -183,7 +186,9 @@
             });
 
             // При нажатии на "Удалить" в подтверждающем окне
-            finalDeleteButton.addEventListener('click', function () {
+            finalDeleteButton.addEventListener('click', function (e) {
+                e.preventDefault(); // Предотвращаем стандартное поведение кнопки
+
                 const idToDelete = this.getAttribute('data-id');
                 if (!idToDelete) {
                     alert('Ошибка: не выбран объект для удаления');
@@ -194,12 +199,62 @@
                 // Устанавливаем ID в скрытое поле формы
                 deleteIdInput.value = idToDelete;
 
-                // Отправляем форму
-                deleteForm.submit();
+                // Закрываем модальное окно
+                confirmDeleteModal.hide();
+
+                // Обработчик для события закрытия модального окна
+                confirmDeleteModalElement.addEventListener(
+                    'hidden.bs.modal',
+                    function () {
+                        deleteToast.show(); // Показываем уведомление
+                    },
+                    { once: true } // Убедитесь, что обработчик вызывается только один раз
+                );
+
+                // Отправляем форму через AJAX (или делаем задержку перед submit)
+                setTimeout(() => {
+                    deleteForm.submit(); // Отправляем форму
+                }, 3000); // Задержка для отображения Toast
             });
         });
+
+
+
     </script>
 
+    <!-- Скрипт для отображения информации об объекте --> 
+    <script>
+        document.getElementById('objectSelect').addEventListener('change', async function () {
+            const selectedId = this.value;
+
+            if (!selectedId) {
+                document.getElementById('objectInfo').value = "Выберите объект для просмотра информации";
+                return;
+            }
+
+            try {
+            const response = await fetch(`/Index?handler=ObjectInfo&id=${selectedId}`);
+
+            if (!response.ok) {
+                throw new Error("Ошибка при загрузке данных");
+            }
+
+            const data = await response.json();
+            console.log(data); // Проверка данных, возвращаемых сервером
+
+            if (data.Error) {
+                document.getElementById('objectInfo').value = data.Error;
+            } else {
+                document.getElementById('objectInfo').value = `Район: ${data.Район}\nУлица: ${data.Улица}\nСтатус: ${data.Статус}`;
+            }
+        } catch (error) {
+            console.error(error);
+            document.getElementById('objectInfo').value = "Ошибка загрузки данных";
+        }
+
+
+        });
+    </script>
 
 
 
