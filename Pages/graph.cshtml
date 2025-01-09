@@ -1,40 +1,41 @@
 ﻿@page
+@using System.Globalization
 @model KSPBD_Rulit.Pages.graphModel
 @{
 }
 
 <head>
     <style>
-              /* Стили для выделения перетаскиваемой ячейки */
-              .dragging {
-                  opacity: 0.5;
-                  background-color: #f8d7da;
-              }
-              .droppable {
-                  background-color: #d4edda;
-              }
-              .selected {
-                background-color: rgba(0, 255, 0, 0.3); /* Зеленый прозрачный фон */
-                border: 1px solid green; /* Зеленая рамка */
-            }
+        /* Стили для выделения перетаскиваемой ячейки */
+        .dragging {
+        opacity: 0.5;
+        background-color: #f8d7da;
+        }
         .droppable {
-            border: 2px dashed #007bff; /* Indicate droppable area */
+        background-color: #d4edda;
+        }
+        .selected {
+        background-color: rgba(0, 255, 0, 0.3); /* Зеленый прозрачный фон */
+        border: 1px solid green; /* Зеленая рамка */
+        }
+        .droppable {
+        border: 2px dashed #007bff; /* Indicate droppable area */
         }
         table.table {
-            border-collapse: separate; /* Раздельные границы */
-            border-spacing: 0; /* Без промежутков */
+        border-collapse: separate; /* Раздельные границы */
+        border-spacing: 0; /* Без промежутков */
         }
 
         table.table td.selected {
-            background-color: rgba(0, 255, 0, 0.3); /* Зеленый фон */
-            border: 1px solid green !important; /* Зеленая граница */
-            box-sizing: border-box;
+        background-color: rgba(0, 255, 0, 0.3); /* Зеленый фон */
+        border: 1px solid green !important; /* Зеленая граница */
+        box-sizing: border-box;
         }
     </style>
 </head>
 
 <body class="bg-white d-flex flex-column gap-0">
-    
+
 
     <div class="container pt-5 px-5">
         <div class="mb-4">
@@ -103,74 +104,50 @@
     <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-5">
         <div class="container border border-dark rounded-3 border-secondary p-3" style="width:40vh; min-height: 80vh">
             <nav class="nav d-flex flex-column">
-                <a class="nav-link" href="#">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 6V5C2 3.34315 3.34315 2 5 2H9.6C10.9255 2 12 3.07452 12 4.4C12 5.28366 12.7163 6 13.6 6H19C20.6569 6 22 7.34315 22 9V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V6Z" stroke="black" stroke-width="2" stroke-linejoin="round" />
-                        <path d="M2 14C2 12.3431 3.34315 11 5 11H19C20.6569 11 22 12.3431 22 14V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V14Z" stroke="black" stroke-width="2" />
-                    </svg>
-                    <span class="fw-bold text-dark ms-2">1 МОНОЛИТНЫЕ РАБОТЫ</span>
-                </a>
-                <a class="nav-link ms-3" href="#">
-                    <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 17V7C21 5.89543 20.1046 5 19 5H12.2361C11.4785 5 10.786 4.572 10.4472 3.89443L9.5528 2.10557C9.214 1.428 8.52148 1 7.76393 1H3C1.89543 1 1 1.89543 1 3V17C1 18.1046 1.89543 19 3 19H19C20.1046 19 21 18.1046 21 17Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span class="fw-bold text-dark">1.1 Стены и перекрытия</span>
-                </a>
-                <a class="nav-link active" href="#">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 6V5C2 3.34315 3.34315 2 5 2H9.6C10.9255 2 12 3.07452 12 4.4C12 5.28366 12.7163 6 13.6 6H19C20.6569 6 22 7.34315 22 9V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V6Z" stroke="black" stroke-width="2" stroke-linejoin="round" />
-                        <path d="M2 14C2 12.3431 3.34315 11 5 11H19C20.6569 11 22 12.3431 22 14V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V14Z" stroke="black" stroke-width="2" />
-                    </svg>
-                    <span class="fw-bold text-dark">2 КИРПИЧНАЯ КЛАДКА</span>
-                </a>
-                <a class="nav-link ms-3" href="#">
-                    <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 17V7C21 5.89543 20.1046 5 19 5H12.2361C11.4785 5 10.786 4.572 10.4472 3.89443L9.5528 2.10557C9.214 1.428 8.52148 1 7.76393 1H3C1.89543 1 1 1.89543 1 3V17C1 18.1046 1.89543 19 3 19H19C20.1046 19 21 18.1046 21 17Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span class="fw-bold text-dark">2.1 Наружные стены</span>
-                </a>
-                <a class="nav-link ms-3" href="#">
-                    <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 17V7C21 5.89543 20.1046 5 19 5H12.2361C11.4785 5 10.786 4.572 10.4472 3.89443L9.5528 2.10557C9.214 1.428 8.52148 1 7.76393 1H3C1.89543 1 1 1.89543 1 3V17C1 18.1046 1.89543 19 3 19H19C20.1046 19 21 18.1046 21 17Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span class="fw-bold text-dark">2.2 Перегородки</span>
-                </a>
-                <a class="nav-link" href="#">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 6V5C2 3.34315 3.34315 2 5 2H9.6C10.9255 2 12 3.07452 12 4.4C12 5.28366 12.7163 6 13.6 6H19C20.6569 6 22 7.34315 22 9V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V6Z" stroke="black" stroke-width="2" stroke-linejoin="round" />
-                        <path d="M2 14C2 12.3431 3.34315 11 5 11H19C20.6569 11 22 12.3431 22 14V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V14Z" stroke="black" stroke-width="2" />
-                    </svg>
-                    <span class="fw-bold text-dark">3 ВНУТРЕННЯЯ ОТДЕЛКА</span>
-                </a>
-                <a class="nav-link ms-3" href="#">
-                    <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 17V7C21 5.89543 20.1046 5 19 5H12.2361C11.4785 5 10.786 4.572 10.4472 3.89443L9.5528 2.10557C9.214 1.428 8.52148 1 7.76393 1H3C1.89543 1 1 1.89543 1 3V17C1 18.1046 1.89543 19 3 19H19C20.1046 19 21 18.1046 21 17Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span class="fw-bold text-dark">3.1 Устройство стяжки на пол</span>
-                </a>
-                <a class="nav-link" href="#">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 6V5C2 3.34315 3.34315 2 5 2H9.6C10.9255 2 12 3.07452 12 4.4C12 5.28366 12.7163 6 13.6 6H19C20.6569 6 22 7.34315 22 9V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V6Z" stroke="black" stroke-width="2" stroke-linejoin="round" />
-                        <path d="M2 14C2 12.3431 3.34315 11 5 11H19C20.6569 11 22 12.3431 22 14V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V14Z" stroke="black" stroke-width="2" />
-                    </svg>
-                    <span class="fw-bold text-dark">4 ВЕНТИЛЯЦИЯ</span>
-                </a>
-                <a class="nav-link ms-3" href="#">
-                    <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 17V7C21 5.89543 20.1046 5 19 5H12.2361C11.4785 5 10.786 4.572 10.4472 3.89443L9.5528 2.10557C9.214 1.428 8.52148 1 7.76393 1H3C1.89543 1 1 1.89543 1 3V17C1 18.1046 1.89543 19 3 19H19C20.1046 19 21 18.1046 21 17Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span class="fw-bold text-dark">4.1 Стены и перекрытия</span>
-                </a>
-                <a class="nav-link ms-3" href="#">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8.34162C20 7.8034 19.7831 7.28789 19.3982 6.91161L14.9579 2.56999C14.5842 2.20459 14.0824 2 13.5597 2H6C4.89543 2 4 2.89543 4 4Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9 13H15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9 17H12" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M14 2V6C14 7.10457 14.8954 8 16 8H20" stroke="black" stroke-width="2" stroke-linejoin="round" />
-                    </svg>
-                    <span class="fw-bold text-dark">4.11 Монтаж асбестовых</span>
-                </a>
+                @{
+                    int chapterIndex = 1;
+                    int subChapterIndex = 1;
+                    int workTypeIndex = 1;
+                }
+
+                @foreach (var chapter in Model.Раздел)
+                {
+                    <a class="nav-link" href="?chapterId=@chapter.chapter_id">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 6V5C2 3.34315 3.34315 2 5 2H9.6C10.9255 2 12 3.07452 12 4.4C12 5.28366 12.7163 6 13.6 6H19C20.6569 6 22 7.34315 22 9V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V6Z" stroke="black" stroke-width="2" stroke-linejoin="round" />
+                            <path d="M2 14C2 12.3431 3.34315 11 5 11H19C20.6569 11 22 12.3431 22 14V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V14Z" stroke="black" stroke-width="2" />
+                        </svg>
+                        <span class="fw-bold text-dark ms-2">@chapterIndex. @chapter.chapter_name</span>
+                    </a>
+
+                    @foreach (var subSection in Model.Подраздел.Where(s => s.chapter_id == chapter.chapter_id))
+                    {
+                        <a class="nav-link ms-3" href="?chapterId=@chapter.chapter_id&subChapterId=@subSection.subchapter_id">
+                            <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 17V7C21 5.89543 20.1046 5 19 5H12.2361C11.4785 5 10.786 4.572 10.4472 3.89443L9.5528 2.10557C9.214 1.428 8.52148 1 7.76393 1H3C1.89543 1 1 1.89543 1 3V17C1 18.1046 1.89543 19 3 19H19C20.1046 19 21 18.1046 21 17Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <span class="fw-bold text-dark">@chapterIndex.@subChapterIndex @subSection.subchapter_name</span>
+                        </a>
+
+                        @foreach (var workType in Model.ВидРабот.Where(w => w.subchapter_id == subSection.subchapter_id))
+                        {
+                            <a class="nav-link ms-4" href="?chapterId=@chapter.chapter_id&subChapterId=@subSection.subchapter_id&workTypeId=@workType.WorkType_id">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8.34162C20 7.8034 19.7831 7.28789 19.3982 6.91161L14.9579 2.56999C14.5842 2.20459 14.0824 2 13.5597 2H6C4.89543 2 4 2.89543 4 4Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M9 13H15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M9 17H12" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14 2V6C14 7.10457 14.8954 8 16 8H20" stroke="black" stroke-width="2" stroke-linejoin="round" />
+                                </svg>
+                                <span class="fw-bold text-dark">@chapterIndex.@subChapterIndex.@workTypeIndex @workType.WorkType_name</span>
+                            </a>
+                            workTypeIndex++;
+                        }
+                        subChapterIndex++;
+                    }
+                    chapterIndex++;
+                }
             </nav>
+
 
             <div class="d-flex flex-row justify-content-end mt-3 gap-0">
                 <div class="d-flex flex-column">
@@ -216,65 +193,123 @@
         </div>
         <div class="container mt-5" style="width:110vh; min-height: 80vh">
             <div class="table-responsive">
-                <table class="table table-bordered table-striped text-center">
-                     <thead>
-                        <tr>
-                            <th>N№ п/п</th>
-                            <th>Период</th>
-                            <th>Секция</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var workPlan in Model.WorkPlanTable)
-                        {
+                @if (Model.SelectedChapter != null && Model.SelectedSubChapter == null && Model.SelectedWorkType == null)
+                {
+                    <!-- Таблица для выбранного Раздела -->
+                    <h4>Раздел: @Model.SelectedChapter.chapter_name</h4>
+                    <table class="table table-bordered table-striped text-center">
+                        <thead>
                             <tr>
-                                <td>@workPlan.plan_Id</td>
-                                <td>@workPlan.plan_period</td>
-                                <td>@workPlan.section_Id</td>
-                                <td>@workPlan.section_name</td>
-                                @* <td>@workPlan.Month.ToString("yyyy-MM")</td> *@
-                                @* <td> *@
-
-                                @*     <a href="@Url.Page("/PlanDetails", new { id = plan.ProductionPlanID })" class="btn btn-info">Перейти к позициям плана</a> *@
-                                @* </td> *@
+                                <th>N№ п/п</th>
+                                <th>Наименование работ</th>
+                                <th>Ед. изм.</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int subChapterCount = 1;
+                            }
+                            @foreach (var chapter in Model.ChapterTable.Where(w => w.chapter_id == Model.SelectedChapter.chapter_id))
+                            {
+                                <tr>
+                                    <td>@subChapterCount</td>
+                                    <td>@chapter.subchapter_name</td>
+                                    <td>@chapter.units</td>
+                                </tr>
+                                subChapterCount++;
+                            }
+                        </tbody>
+                    </table>
+                }
+
+                @if (Model.SelectedSubChapter != null && Model.SelectedWorkType == null)
+                {
+                    <!-- Таблица для выбранного Подраздела -->
+                    <h4>Подраздел: @Model.SelectedSubChapter.subchapter_name</h4>
+                    <table class="table table-bordered table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>N№ п/п</th>
+                                <th>Наименование работ</th>
+                                <th>Ед. изм.</th>
+                                <th>ПОДРАЗДЕЛ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int workTypeCount = 1;
+                            }
+                            @foreach (var subchapter in Model.SubChapterTable.Where(w => w.subchapter_id == Model.SelectedSubChapter.subchapter_id))
+                            {
+                                <tr>
+                                    <td>@workTypeCount</td>
+                                    <td>@subchapter.workType_name</td>
+                                    <td>@subchapter.units</td>
+                                </tr>
+                                workTypeCount++;
+                            }
+                        </tbody>
+                    </table>
+                }
+
+                @if (Model.SelectedWorkType != null)
+                {
+                    <!-- Таблица для выбранного Вид Работ -->
+                    <h4>Вид работ: @Model.SelectedWorkType.WorkType_name</h4>
+                    <table id="workPlanTable" class="table table-bordered table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>N№ п/п</th>
+                                <th>Период</th>
+                                <th>Название Секции</th>
+                                <th>Номер Секции</th>
+                                <th>Значение</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @functions {
+                            public int GetWeekOfMonth(DateTime date)
+                            {
+                                // Определяем, какой день недели является первым в месяце
+                                DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+
+                                // Получаем номер недели в месяце
+                                int weekOfMonth = (date.Day - 1) / 7 + 1;
+
+                                return weekOfMonth;
+                            }
                         }
-                    </tbody>
-                </table>
-                @* <table class="table table-bordered table-striped text-center"> *@
-                @*     <thead class="table-light"> *@
-                @*         <tr> *@
-                @*             <th>№ п/п</th> *@
-                @*             <th>Наименование работы</th> *@
-                @*             <th>Ед. изм.</th> *@
-                @*             <th>I Июня</th> *@
-                @*             <th>II Июня</th> *@
-                @*         </tr> *@
-                @*     </thead> *@
-                @*     <tbody> *@
-                @*         <tr> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">1</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Наружные стены</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">м2</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">2472.9</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">2472.9</td> *@
-                @*         </tr> *@
-                @*         <tr> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">2</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Перегородки</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">м2</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">2122.2</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">2122.2</td> *@
-                @*         </tr> *@
-                @*         <tr> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">3</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Потолки</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">м2</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">1500.0</td> *@
-                @*             <td draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">1500.0</td> *@
-                @*         </tr> *@
-                @*     </tbody> *@
-                @* </table> *@
+                        @foreach (var workPlan in Model.WorkPlanTable)
+                            {
+                                <tr>
+                                    <td>@workPlan.plan_Id</td>
+                                    <td>
+                                        @{
+                                            // Преобразуем строку даты (в формате dd-MM-yyyy) в объект DateTime
+                                            DateTime date = DateTime.ParseExact(workPlan.plan_period, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+                                            // Получаем номер недели в месяце
+                                            int weekOfMonth = GetWeekOfMonth(date);
+
+                                            // Получаем название месяца
+                                            string monthName = date.ToString("MMMM", new CultureInfo("ru-RU"));
+
+                                            // Формируем строку в нужном формате
+                                            string formattedDate = $"{weekOfMonth} неделя {monthName}";
+
+                                            // Выводим результат
+                                            @formattedDate
+                                        }
+                                    </td>
+                                    <td>@workPlan.section_name</td>
+                                    <td>Секция @workPlan.section_Id</td>
+                                    <td class="editable" data-id="@workPlan.plan_Id">@workPlan.workValue</td>
+                                </tr>
+                            }
+                            }
+                        </tbody>
+                    </table>
+                }
             </div>
         </div>
 
@@ -368,45 +403,35 @@
             </div>
         </div>
         <script>
-              let draggedElement = null;
+            let draggedElement = null;
             let selectedCells = new Set(); // Храним выделенные ячейки
             let isSelecting = false; // Флаг режима выделения
 
             // Функция для начала перетаскивания
-            function drag(event) {
+            function dragStart(event) {
                 if (event.shiftKey || event.metaKey) {
                     return; // Отключаем drag-and-drop при зажатом Shift или Command
                 }
                 draggedElement = event.target;
+                event.dataTransfer.setData("text/plain", draggedElement.innerHTML);
                 event.target.classList.add('dragging');
-                event.dataTransfer.setData("text/plain", event.target.innerHTML);
             }
 
-            // Функция для обработки перетаскивания
+            // Функция для разрешения перетаскивания
             function allowDrop(event) {
                 event.preventDefault();
-                if (!event.target.classList.contains('dragging')) {
-                    event.target.classList.add('droppable');
-                }
             }
 
             // Функция для завершения перетаскивания
             function drop(event) {
                 event.preventDefault();
-                if (draggedElement) {
-                    const draggedContent = event.dataTransfer.getData("text/plain");
-                    if (selectedCells.size > 0) {
-                        selectedCells.forEach(cell => (cell.innerHTML = draggedContent));
-                    } else {
-                        event.target.innerHTML = draggedContent;
-                    }
+                const draggedContent = event.dataTransfer.getData("text/plain");
+                if (selectedCells.size > 0) {
+                    selectedCells.forEach(cell => cell.innerHTML = draggedContent);
+                } else {
+                    event.target.innerHTML = draggedContent;
                 }
-                clearSelection(); // Очистить выделение после drop
-            }
-
-            // Функция для завершения выделения
-            function endDrag(event) {
-                event.target.classList.remove('dragging');
+                clearSelection();
             }
 
             // Очистка выделения
@@ -415,81 +440,71 @@
                 selectedCells.clear();
             }
 
-            // Обработчики событий для ячеек
-            document.querySelectorAll('td').forEach(cell => {
-                // Нажатие мыши
-                cell.addEventListener('mousedown', function (event) {
-                    if (event.shiftKey || event.metaKey) {
-                        isSelecting = true; // Включаем режим выделения
-                        if (!selectedCells.has(cell)) {
-                            cell.classList.add('selected');
-                            selectedCells.add(cell);
-                        }
-                        event.preventDefault(); // Отключаем стандартное поведение
-                    }
-                });
-
-                // Движение мыши
-                cell.addEventListener('mousemove', function (event) {
-                    if (isSelecting) {
-                        if (!selectedCells.has(cell)) {
-                            cell.classList.add('selected');
-                            selectedCells.add(cell);
-                        }
-                    }
-                });
-
-                // Завершение выделения
-                cell.addEventListener('mouseup', function () {
-                    isSelecting = false; // Отключаем режим выделения
-                });
-
-                // Отключение drag-and-drop при Shift или Command
-                cell.addEventListener('dragstart', function (event) {
-                    if (event.shiftKey || event.metaKey) {
-                        event.preventDefault();
-                    }
-                });
-            });
-
-            // Сброс выделения при клике за пределами таблицы
-            document.addEventListener('click', function (event) {
-                const table = document.querySelector('table'); // Укажите вашу таблицу
-                if (!table.contains(event.target)) {
-                    clearSelection();
-                }
-            });
-
-            // Остановка выделения при отпускании мыши за пределами таблицы
-            document.addEventListener('mouseup', function () {
-                isSelecting = false;
-            });
-
             document.addEventListener('DOMContentLoaded', function() {
-                // Получаем все ячейки таблицы
-                const cells = document.querySelectorAll('td');
+                const table = document.querySelector('.table'); // Таблица с данными
+                const cells = table.querySelectorAll('td');
 
-                // Обработчик правого клика
                 cells.forEach(cell => {
-                    // Обработчик двойного клика
-                    cell.addEventListener('dblclick', function() {
-                        // Открываем модальное окно
-                        var myModal = new bootstrap.Modal(document.getElementById('filterModal'));
-                        myModal.show();
+                    // Перетаскивание
+                    cell.draggable = true; // Разрешаем перетаскивание
+                    cell.addEventListener('dragstart', dragStart);
+                    cell.addEventListener('dragover', allowDrop);
+                    cell.addEventListener('drop', drop);
+                    cell.addEventListener('dragend', () => cell.classList.remove('dragging'));
+
+                    // Выделение ячеек
+                    cell.addEventListener('mousedown', function(event) {
+                        if (event.shiftKey || event.metaKey) {
+                            isSelecting = true;
+                            if (!selectedCells.has(cell)) {
+                                cell.classList.add('selected');
+                                selectedCells.add(cell);
+                            }
+                            event.preventDefault();
+                        }
                     });
-                });
-            });
-            document.querySelectorAll('td').forEach(cell => {
-                    cell.addEventListener('contextmenu', function (event) {
+
+                    cell.addEventListener('mousemove', function() {
+                        if (isSelecting) {
+                            if (!selectedCells.has(cell)) {
+                                cell.classList.add('selected');
+                                selectedCells.add(cell);
+                            }
+                        }
+                    });
+
+                    cell.addEventListener('mouseup', function() {
+                        isSelecting = false;
+                    });
+
+                    // Двойной клик для модального окна
+                    cell.addEventListener('dblclick', function() {
+                        const filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+                        filterModal.show();
+                    });
+
+                    // Контекстное меню
+                    cell.addEventListener('contextmenu', function(event) {
                         if (selectedCells.size > 0) {
-                            event.preventDefault(); // Отключаем стандартное меню
-                            const myModal = new bootstrap.Modal(document.getElementById('editModal'));
-                            myModal.show();
+                            event.preventDefault();
+                            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                            editModal.show();
                         }
                     });
                 });
-        </script>
 
+                // Сброс выделения при клике за пределами таблицы
+                document.addEventListener('click', function(event) {
+                    if (!table.contains(event.target)) {
+                        clearSelection();
+                    }
+                });
+
+                document.addEventListener('mouseup', function() {
+                    isSelecting = false;
+                });
+            });
+        </script>
 
 
         <div class="container w-25 p-3 border border-dark rounded-3 border border-secondary"
@@ -529,6 +544,7 @@
             </form>
         </div>
     </div>
+
     <script>
         // Функция для смены языка
         function changeLanguage(lang) {

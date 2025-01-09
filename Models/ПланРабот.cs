@@ -10,11 +10,11 @@ namespace KSPBD_Rulit.Models
         public int WorkValue { get; set; }
 
         //Внешний ключ для связи с Секцией
-        public int СекцияId { get; set; }
+        public int section_id { get; set; }
         // Навигационное свойство для связи с Секцией
-        public Секция Секция { get; set; }
+        //public Секция Секция { get; set; }
 
-        //public int workType_id { get; set; }
+        public int WorkType_id { get; set; }
         //public ВидРабот ВидРабот { get; set; }
     }
 }
