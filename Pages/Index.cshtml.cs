@@ -39,7 +39,7 @@ namespace KSPBD_Rulit.Pages
                 return RedirectToPage(); // Перезагрузка страницы после удаления
             }
 
-            // Если объект не найден, можно вернуть ошибку или просто обновить страницу
+            // Если объект не найден
             return RedirectToPage();
         }
 
