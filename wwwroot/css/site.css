@@ -1,22 +1,105 @@
+/* Общие стили для светлой темы */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
+
+.card {
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+}
+
+/* Стили кнопок, фокусов и активных элементов */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Navbar, Header и Offcanvas для светлой темы */
+header,
+.navbar {
+    background-color: var(--bg-color); /* Используем переменную для фона */
+    color: var(--text-color);
+    border-bottom: 1px solid #dee2e6;
+}
+
+.offcanvas {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* Тёмная тема */
+.dark-theme {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --card-bg-color: #1e1e1e;
+    --btn-bg-color: #007bff;
+    --btn-text-color: #ffffff;
+}
+
+    /* Стили для тёмной темы */
+    .dark-theme body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    .dark-theme .card {
+        background-color: var(--card-bg-color);
+        color: var(--text-color);
+    }
+
+    /* navbar и header в тёмной теме */
+    .dark-theme header,
+    .dark-theme .navbar {
+        background-color: var(--card-bg-color); /* Используем переменную для фона */
+        color: var(--text-color);
+        border-bottom: 1px solid #333;
+    }
+
+    .dark-theme .offcanvas {
+        background-color: var(--card-bg-color);
+        color: var(--text-color);
+    }
+
+    /* Кнопки для тёмной темы */
+    .dark-theme .btn {
+        background-color: var(--btn-bg-color);
+        color: var(--btn-text-color);
+    }
+
+    .dark-theme .navbar-toggler-icon {
+        background-color: var(--text-color); /* Меняем цвет иконки на светлый */
+    }
+
+    /* Дополнительные стили для текста */
+    .dark-theme .navbar-nav .nav-link {
+        color: var(--text-color);
+    }
+
+        .dark-theme .navbar-nav .nav-link:hover {
+            color: var(--btn-bg-color); /* Сменим цвет при наведении */
+        }
+
+    .dark-theme .dropdown-menu {
+        background-color: var(--card-bg-color);
+        border-color: var(--text-color);
+    }
+
+    .dark-theme .dropdown-item {
+        color: var(--text-color);
+    }
+
+        .dark-theme .dropdown-item:hover {
+            background-color: var(--btn-bg-color);
+            color: var(--btn-text-color);
+        }
