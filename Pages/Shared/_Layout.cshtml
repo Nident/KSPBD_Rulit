@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - KSPBD_Rulit</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
 </head>
 <body>
     <!-- Хедер -->
@@ -104,11 +105,13 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Вид</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">View 1</a></li>
-                            <li><a class="dropdown-item" href="#">View 2</a></li>
-                            <li><a class="dropdown-item" href="#">View 3</a></li>
+                            <li>
+                                <button id="themeToggle" class="dropdown-item" type="button">Тёмная тема</button>
+                            </li>
                         </ul>
                     </li>
+
+
 
                     <!-- Помощь -->
                     <li class="nav-item dropdown">
@@ -140,6 +143,8 @@
         </div>
     </footer>
 
+    <script src="~/js/ThemeToggle.js" asp-append-version="true"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Получаем кнопку "Сохранить"
@@ -151,7 +156,10 @@
             }
         });
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
