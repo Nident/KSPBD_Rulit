@@ -4,9 +4,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace KSPBD_Rulit.Pages
+
 {
+    [Authorize]  // Ограничиваем доступ только авторизованным пользователям
     public class IndexModel : PageModel
     {
         private readonly Context _context;

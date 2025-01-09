@@ -2,6 +2,9 @@
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using KSPBD_Rulit.Models;
+using BCrypt.Net;
+
+
 
 namespace KSPBD_Rulit
 {
@@ -134,6 +137,19 @@ namespace KSPBD_Rulit
                 new Этаж { НаименованиеЭтаж = "Цокальный", НомерЭтажа = 1 }
                 );
             }
+
+            if (!context.Пользователи.Any())
+            {
+                context.Пользователи.Add(new Пользователь
+                {
+                    Login = "admin",
+                    CachePassword = BCrypt.Net.BCrypt.HashPassword("qwerty123"),
+                    Role = "ПТО"
+                });
+
+                context.SaveChanges();
+            }
+
 
         }
     }

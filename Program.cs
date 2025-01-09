@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using KSPBD_Rulit.Models; // Пространство имён с вашим Context
 
 namespace KSPBD_Rulit
@@ -16,6 +17,15 @@ namespace KSPBD_Rulit
             builder.Services.AddDbContext<Context>(options =>
                 options.UseSqlServer(connection));
 
+            // Настройка аутентификации с использованием Cookie
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/authPanle";  // Указание пути к странице авторизации
+                    options.AccessDeniedPath = "/authPanle";  // Указание страницы для отказа в доступе
+                });
+
+
             // Добавляем Razor Pages
             builder.Services.AddRazorPages();
 
@@ -25,7 +35,7 @@ namespace KSPBD_Rulit
             using (var scope = app.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-                SeedCl.Seed(dbContext); 
+                SeedCl.Seed(dbContext);
             }
 
             // Configure the HTTP request pipeline
@@ -37,8 +47,29 @@ namespace KSPBD_Rulit
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseRouting();
+
+            // Подключение аутентификации и авторизации
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            // Перенаправление на authPanle как стартовую страницу
+            app.MapGet("/", async context =>
+            {
+                if (context.User.Identity.IsAuthenticated)
+                {
+                    context.Response.Redirect("/Index");  // Перенаправление на Index, если пользователь уже авторизован
+                }
+                else
+                {
+                    context.Response.Redirect("/authPanle");  // Перенаправление на authPanle, если пользователь не авторизован
+                }
+                await Task.CompletedTask;
+            });
+
+
+
             app.MapRazorPages();
 
             app.Run();
