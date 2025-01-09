@@ -109,10 +109,9 @@ namespace KSPBD_Rulit
             if (!context.ПланРабот.Any())
             {
                 context.ПланРабот.AddRange(
-                new ПланРабот { DateOfWork = "02-06-2024", WorkValue = 2473, СекцияId = 1 },
-                new ПланРабот { DateOfWork = "06-06-2024", WorkValue = 2123, СекцияId = 1 },
-                new ПланРабот { DateOfWork = "06-06-2024", WorkValue = 500, СекцияId = 2 },
-                new ПланРабот { DateOfWork = "10-06-2024", WorkValue = 2123, СекцияId = 3 }
+                new ПланРабот { DateOfWork = "02-06-2024", WorkValue = 2473, section_id = 1, WorkType_id = 1 },
+                new ПланРабот { DateOfWork = "22-06-2024", WorkValue = 500, section_id = 1, WorkType_id = 1 },
+                new ПланРабот { DateOfWork = "10-09-2024", WorkValue = 100, section_id = 1, WorkType_id = 1 }
                 );
 
                 context.SaveChanges();

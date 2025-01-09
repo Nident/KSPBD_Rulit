@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using KSPBD_Rulit.Models;
+using static System.Collections.Specialized.BitVector32;
 
 namespace KSPBD_Rulit.Pages
 {
@@ -37,14 +38,21 @@ namespace KSPBD_Rulit.Pages
             ПланРабот = await _context.ПланРабот.ToListAsync();
 
             WorkPlanTable = await (from workPlan in _context.ПланРабот
-                                   join section in _context.Секция
-                                   on workPlan.СекцияId equals section.ИдСекции
+                                       join section in _context.Секция
+                                       on workPlan.section_id equals section.Section_id 
+                                       join workType in _context.ВидРабот
+                                       on workPlan.WorkType_id equals workType.WorkType_id
                                    select new workPlanTable
                                    {
                                        plan_Id = workPlan.WorkPlan_Id,
                                        plan_period = workPlan.DateOfWork,
-                                       section_Id = section.ИдСекции,
-                                       section_name = section.НаименованиеСекции
+                                       WorkType_id = workType.WorkType_id, // Убедитесь, что значение правильно
+                                       WorkType_name = workType.WorkType_name, // Можно поменять на нужное значение
+                                       WorkType_number = workType.WorkType_number, // Можно поменять на нужное значение
+                                       WorkComment = workType.WorkComment, // Можно добавить нужное значение
+                                       section_Id = section.Section_id,
+                                       section_name =  section.НаименованиеСекции, // Отображаем "Нет секции", если секция отсутствует
+                                       workValue = workPlan.WorkValue
                                    }).ToListAsync();
 
             Раздел = await _context.Раздел.ToListAsync();
@@ -78,13 +86,11 @@ namespace KSPBD_Rulit.Pages
                 Раздел.FirstOrDefault(r => r.chapter_id == chapterId) :
                 Раздел.FirstOrDefault(); // Если не выбран раздел, берем первый
 
-            if (SelectedChapter != null)
-            {
-                // Устанавливаем подраздел для выбранного раздела
-                SelectedSubChapter = subChapterId.HasValue ?
-                    Подраздел.FirstOrDefault(s => s.subchapter_id == subChapterId) :
-                    Подраздел.FirstOrDefault(s => s.chapter_id == SelectedChapter.chapter_id);
-            }
+            // Устанавливаем подраздел для выбранного раздела
+            SelectedSubChapter = subChapterId.HasValue ?
+                Подраздел.FirstOrDefault(s => s.subchapter_id == subChapterId) :
+                null;
+            
 
             if (SelectedSubChapter != null)
             {
@@ -126,8 +132,13 @@ public class workPlanTable
 {
     public int plan_Id { get; set; }
     public string plan_period { get; set; }
+    public int WorkType_id { get; set; }
+    public string WorkType_name { get; set; }
+    public int WorkType_number { get; set; }
+    public string? WorkComment { get; set; }
     public int section_Id { get; set; }
     public string section_name { get; set; }
+    public float workValue { get; set; }
 }
 
 
